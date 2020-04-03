@@ -5,7 +5,7 @@ const triviaAnswers = require('./trivia.json')
 const CONFIG = require('./config.json')
 
 let myUsername
-let listenChannel
+let listenChannel = null
 let running = false
 
 function createInterval(cmd, time, delay) {
@@ -69,6 +69,7 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       console.log('Stopping bot')
 
       running = false
+      listenChannel = null
       break
     }
 

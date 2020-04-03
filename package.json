@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"You really think I would write tests for this??\" && exit 1",
+    "update": "git pull --rebase origin master",
     "start": "node ."
   },
   "author": "",

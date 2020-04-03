@@ -11,3 +11,6 @@
  2. Edit `config.json` and put in your account's Discord token. [Here are the instructions](https://github.com/Tyrrrz/DiscordChatExporter/wiki/Obtaining-Token-and-Channel-IDs#how-to-get-a-user-token) on how to get it
  3. *(Optional)* Edit any other config params you wish to change
  4. Run the script: `$ npm start`
+ 5. Go to the Discord channel where you want your bot to work and send `$start` (or `$s`)
+ 6. ???
+ 7. Profit (in MemeCoins, pun definitely intended)
