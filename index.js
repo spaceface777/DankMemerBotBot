@@ -141,11 +141,11 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       break
     }
 
-    // Type to prevent fishing rod from breaking
-    case /next 5 seconds\nType (.+?)/i.test(content): {
-      const [_, text] = content.match(/\nType `(.+?)`/)
+    // Type given text (events and prevent fishing rod from breaking)
+    case /Type `(.+?)`/i.test(content): {
+      const [_, text] = content.match(/Type `(.+?)`/)
 
-      console.log(` ↳ Typing '${text}' to prevent fishing rod from breaking`)
+      console.log(` ↳ Typing '${text}'`)
       listenChannel.sendMessage(text)
 
       break
