@@ -1,0 +1,35 @@
+{
+    "TOKEN": "your.discord.account.token",
+
+    "DEPOSIT_COINS": true,
+    "SELL_ITEMS": true,
+
+    "USE_DAILY": true,
+    "USE_WEEKLY": true,
+
+    "USE_BEG": true,
+    "USE_FISH": true,
+    "USE_MEMES": true,
+    "USE_SEARCH": true,
+    "USE_TRIVIA": true,
+
+    "TRIVIA_CORRECT_CHANCE": 0.75,
+
+    "ITEM_IDS": {
+        "common fish": "fish",
+        "rare fish": "rarefish",
+        "padlock": "padlock",
+        "box of sand": "sand",
+        "pink phallic object": "pinkphallicobject"
+      },
+      
+      "SEARCH_AVOID_PLACES": [
+        "sewer",
+        "car",
+        "purse",
+        "street",
+        "hospital",
+        "dumpster",
+        "dog"
+      ]
+}
