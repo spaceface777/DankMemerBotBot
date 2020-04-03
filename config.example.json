@@ -1,7 +1,7 @@
 {
     "TOKEN": "your.discord.account.token",
 
-    "DEPOSIT_COINS": true,
+    "DEPOSIT": true,
     "SELL_ITEMS": true,
 
     "USE_DAILY": true,
