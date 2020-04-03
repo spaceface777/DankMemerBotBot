@@ -32,7 +32,7 @@ client.Dispatcher.on('GATEWAY_READY', () => {
 client.Dispatcher.on('MESSAGE_CREATE', e => {
   const { author, content, channel, embeds } = e.message
 
-  //  Don't handle messages in different channels  and   only process messages by me or the bot      
+  //  Don't handle messages in different channels  and   only process messages by me or the bot
   if ((listenChannel && channel !== listenChannel) || !(['Dank Memer', myUsername].includes(author.username))) {
     return
   }
@@ -143,9 +143,9 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
 
     // Type to prevent fishing rod from breaking
     case /next 5 seconds\nType (.+?)/i.test(content): {
-      const [_, text] = content.match(/type the phrase below in the next 5 seconds\nType (.+?)/)
+      const [_, text] = content.match(/\nType `(.+?)`/)
 
-      console.log(` ↳ Typing ${text} to prevent fishing rod from breaking`)
+      console.log(` ↳ Typing '${text}' to prevent fishing rod from breaking`)
       listenChannel.sendMessage(text)
 
       break
