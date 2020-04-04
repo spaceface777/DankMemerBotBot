@@ -52,15 +52,14 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       if (CONFIG.USE_DAILY)  createInterval('pls daily', 1000 * 60 * 60 * 24, 500)
       if (CONFIG.USE_WEEKLY) createInterval('pls weekly', 1000 * 60 * 60 * 24 * 7, 500)
 
-      if (CONFIG.DEPOSIT)    createInterval('pls deposit all', 1000 * 62, 500)
+      if (CONFIG.DEPOSIT)    setTimeout(() => createInterval('pls deposit all', 1000 * 62, 100), 2000)
 
-      if (CONFIG.USE_BEG)    setTimeout(() => createInterval('pls beg', 1000 * 31, 100), 3000)  // Start offsetted to prevent overlaps
-      if (CONFIG.USE_FISH)   setTimeout(() => createInterval('pls fish', 1000 * 31, 100), 8000)
-      if (CONFIG.USE_SEARCH) setTimeout(() => createInterval('pls search', 1000 * 31, 100), 13000)
-      if (CONFIG.USE_TRIVIA) setTimeout(() => createInterval('pls trivia', 1000 * 31, 100), 18000)
+      if (CONFIG.USE_BEG)    setTimeout(() => createInterval('pls beg',    1000 * 31, 100), 4000)  // Start offsetted to prevent overlaps
+      if (CONFIG.USE_SEARCH) setTimeout(() => createInterval('pls search', 1000 * 31, 100), 12000)
+      if (CONFIG.USE_TRIVIA) setTimeout(() => createInterval('pls trivia', 1000 * 31, 100), 20000)
 
-      if (CONFIG.USE_MEMES)  setTimeout(() => createInterval('pls postmeme', 1000 * 62, 100), 30000)
-      if (CONFIG.USE_MEMES)  setTimeout(() => createInterval('d', 1000 * 62, 100), 31000) // Dank meme
+      if (CONFIG.USE_FISH)   setTimeout(() => createInterval('pls fish', 1000 * 62, 100), 28000)
+      if (CONFIG.USE_MEMES)  setTimeout(() => createInterval('pls postmeme', 1000 * 62, 100), 31000 + 28000)
       break
     }
 
@@ -116,6 +115,13 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       }
     }
 
+    // Post meme
+    case /type of meme/i.test(content): {
+      listenChannel.sendMessage('d')
+
+      break
+    }
+
     // Sell beg items
     case /, and a .+ \*\*(.+)\*\*/.test(content): {
       if (!CONFIG.SELL_ITEMS) break
@@ -146,7 +152,7 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       const [_, text] = content.match(/Type `(.+?)`/)
 
       console.log(` ↳ Typing '${text}'`)
-      listenChannel.sendMessage(text)
+      setTimeout(() => listenChannel.sendMessage(text), 500)
 
       break
     }
