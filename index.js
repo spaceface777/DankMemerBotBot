@@ -152,7 +152,8 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       const [_, text] = content.match(/Type `(.+?)`/)
 
       console.log(` ↳ Typing '${text}'`)
-      setTimeout(() => listenChannel.sendMessage(text), 500)
+      listenChannel.sendTyping()
+      setTimeout(() => listenChannel.sendMessage(text), 100 + 40 * text.length)
 
       break
     }
