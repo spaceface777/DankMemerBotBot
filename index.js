@@ -8,15 +8,16 @@ let myUsername
 let listenChannel = null
 let running = false
 
-function createInterval(cmd, time, delay) {
+function createInterval(cmd, time, delay, offset) {
   function i() {
-    if (!running) return
+    if (!running || !listenChannel) return
 
     console.log(`Sending '${cmd}'`)
     listenChannel.sendMessage(cmd)
     setTimeout(i, time + (Math.random() * 2 - 1) * delay)
   }
-  i() // Run the interval once
+  
+  setTimeout(i, offset)  // Run the interval once
 }
 
 client.connect({ token: CONFIG.TOKEN })
@@ -41,25 +42,22 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
   switch (true) {
     // Start
     case /^\$s(tart)?$/i.test(content): {
-      // Only start if it's this account that sent the start command
-      if (author.username !== myUsername) {
-        break
-      }
+      console.log('Starting bot')
 
-      listenChannel = e.message.channel
+      listenChannel = channel
       running = true
 
-      if (CONFIG.USE_DAILY)  createInterval('pls daily', 1000 * 60 * 60 * 24, 500)
-      if (CONFIG.USE_WEEKLY) createInterval('pls weekly', 1000 * 60 * 60 * 24 * 7, 500)
+      if (CONFIG.USE_DAILY)  createInterval('pls daily',  1000 * 60 * 60 * 24,     500, 0)
+      if (CONFIG.USE_WEEKLY) createInterval('pls weekly', 1000 * 60 * 60 * 24 * 7, 500, 0)
 
-      if (CONFIG.DEPOSIT)    setTimeout(() => createInterval('pls deposit all', 1000 * 62, 100), 2000)
+      if (CONFIG.DEPOSIT)    createInterval('pls deposit all', 1000 * 42, 100, 2000)
 
-      if (CONFIG.USE_BEG)    setTimeout(() => createInterval('pls beg',    1000 * 31, 100), 4000)  // Start offsetted to prevent overlaps
-      if (CONFIG.USE_SEARCH) setTimeout(() => createInterval('pls search', 1000 * 31, 100), 12000)
-      if (CONFIG.USE_TRIVIA) setTimeout(() => createInterval('pls trivia', 1000 * 31, 100), 20000)
+      if (CONFIG.USE_BEG)    createInterval('pls fish',     1000 * 41, 100, 6000)
+      if (CONFIG.USE_SEARCH) createInterval('pls search',   1000 * 41, 100, 15000)
+      if (CONFIG.USE_TRIVIA) createInterval('pls trivia',   1000 * 41, 100, 24000)
+      if (CONFIG.USE_FISH)   createInterval('pls beg',      1000 * 41, 100, 33000)
+      if (CONFIG.USE_MEMES)  createInterval('pls postmeme', 1000 * 41, 100, 40000)
 
-      if (CONFIG.USE_FISH)   setTimeout(() => createInterval('pls fish', 1000 * 62, 100), 28000)
-      if (CONFIG.USE_MEMES)  setTimeout(() => createInterval('pls postmeme', 1000 * 62, 100), 31000 + 28000)
       break
     }
 
@@ -123,10 +121,12 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
     }
 
     // Sell beg items
-    case /, and a .+ \*\*(.+)\*\*/.test(content): {
+    case /, and a .+ \*\*(.+)\*\*/i.test(content): {
       if (!CONFIG.SELL_ITEMS) break
 
-      const [_, name] = content.match(/, and a .+ \*\*(.+)\*\*/)
+      const [_, name] = content.match(/, and a .+ \*\*(.+)\*\*/i)
+      
+      
 
       console.log(` ↳ Selling 1 ${name}`)
       listenChannel.sendMessage(`pls sell ${name} 1`)
@@ -135,10 +135,10 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
     }
 
     // Sell fish and search items
-    case /(?:brought back|you found) (\d+) (?:<:\w+:\d+> )?(?:\*\*)?([\w\s]+)/.test(content): {
+    case /(?:brought back|you found) (\d+) (?:<:\w+:\d+> )?(?:\*\*)?([\w\s]+)/i.test(content): {
       if (!CONFIG.SELL_ITEMS) break
 
-      const [_, amount, name] = content.match(/(?:brought back|you found) (\d+) (?:<:\w+:\d+> )?(?:\*\*)?([\w\s]+)/)
+      const [_, amount, name] = content.match(/(?:brought back|you found) (\d+) (?:<:\w+:\d+> )?(?:\*\*)?([\w\s]+)/i)
       const id = CONFIG.ITEM_IDS[name.trim().toLowerCase()]
 
       console.log(` ↳ Selling ${amount} ${id || name}`)
@@ -148,8 +148,8 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
     }
 
     // Type given text (events and prevent fishing rod from breaking)
-    case /Type `(.+?)`/i.test(content): {
-      const [_, text] = content.match(/Type `(.+?)`/)
+    case /Typ(?:e|ing) `(.+?)`/i.test(content): {
+      const [_, text] = content.match(/Typ(?:e|ing) `(.+?)`/i)
 
       console.log(` ↳ Typing '${text}'`)
       listenChannel.sendTyping()
