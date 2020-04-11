@@ -50,13 +50,14 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       if (CONFIG.USE_DAILY)  createInterval('pls daily',  1000 * 60 * 60 * 24,     500, 0)
       if (CONFIG.USE_WEEKLY) createInterval('pls weekly', 1000 * 60 * 60 * 24 * 7, 500, 0)
 
-      if (CONFIG.DEPOSIT)    createInterval('pls deposit all', 1000 * 42, 100, 2000)
+      if (CONFIG.DEPOSIT)    createInterval('pls deposit all', 1000 * 41, 100, 2000)
 
       if (CONFIG.USE_FISH)   createInterval('pls fish',     1000 * 41, 100, 6000)
       if (CONFIG.USE_SEARCH) createInterval('pls search',   1000 * 41, 100, 15000)
       if (CONFIG.USE_TRIVIA) createInterval('pls trivia',   1000 * 41, 100, 24000)
       if (CONFIG.USE_BEG)    createInterval('pls beg',      1000 * 41, 100, 33000)
-      if (CONFIG.USE_MEMES)  createInterval('pls postmeme', 1000 * 41, 100, 40000)
+
+      if (CONFIG.USE_MEMES)  createInterval('pls postmeme', 1000 * 82, 100, 40000)
 
       break
     }
