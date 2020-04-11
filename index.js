@@ -85,6 +85,9 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
         .split(',')
         .filter(item => !CONFIG.SEARCH_AVOID_PLACES.includes(item.trim()))
 
+      // TODO: Sort places based on the amount of money you win
+      // reddit.com/r/dankmemer/comments/fur9k2/sharing_my_stats_on_pls_search
+      
       console.log(` ↳ Searching '${places[0] || 'NOWHERE - I DONT WANT TO DIE'}'`)
       listenChannel.sendMessage(places[0] || 'NOWHERE - I DONT WANT TO DIE')
 
