@@ -135,10 +135,10 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
     }
 
     // Sell fish and search items
-    case /(?:brought back|you found) (\d+) (?:<:\w+:\d+> )?(?:\*\*)?([\w\s]+)/i.test(content): {
+    case /(?:brought back|at least you found) (\d+) (?:<:\w+:\d+> )?(?:\*\*)?([\w\s]+)/i.test(content): {
       if (!CONFIG.SELL_ITEMS) break
 
-      const [_, amount, name] = content.match(/(?:brought back|you found) (\d+) (?:<:\w+:\d+> )?(?:\*\*)?([\w\s]+)/i)
+      const [_, amount, name] = content.match(/(?:brought back|at least you found) (\d+) (?:<:\w+:\d+> )?(?:\*\*)?([\w\s]+)/i)
       const id = CONFIG.ITEM_IDS[name.trim().toLowerCase()]
 
       console.log(` ↳ Selling ${amount} ${id || name}`)
