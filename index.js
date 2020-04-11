@@ -121,26 +121,14 @@ client.Dispatcher.on('MESSAGE_CREATE', e => {
       break
     }
 
-    // Sell beg items
-    case /, and a .+ \*\*(.+)\*\*/i.test(content): {
+    // Sell received items
+    case /(?:brought back|at least you found|sent you|, and) (?:(\d+)|a) (?:<:\w+:\d+> )?(?::\w+: )?(?:\*\*)?([\w\s]+)/i.test(content): {
       if (!CONFIG.SELL_ITEMS) break
 
-      const [_, name] = content.match(/, and a .+ \*\*(.+)\*\*/i)
+      const [_, amount = 1, name] = content.match(/(?:brought back|at least you found|sent you|, and) (?:(\d+)|a) (?:<:\w+:\d+> )?(?::\w+: )?(?:\*\*)?([\w\s]+)/i)
       
-      
-
-      console.log(` ↳ Selling 1 ${name}`)
-      listenChannel.sendMessage(`pls sell ${name} 1`)
-
-      break
-    }
-
-    // Sell fish and search items
-    case /(?:brought back|at least you found) (\d+) (?:<:\w+:\d+> )?(?:\*\*)?([\w\s]+)/i.test(content): {
-      if (!CONFIG.SELL_ITEMS) break
-
-      const [_, amount, name] = content.match(/(?:brought back|at least you found) (\d+) (?:<:\w+:\d+> )?(?:\*\*)?([\w\s]+)/i)
-      const id = CONFIG.ITEM_IDS[name.trim().toLowerCase()]
+      //TODO: Add whitelist for items to sell
+      const id = CONFIG.ITEM_IDS[name.toLowerCase().trim()]
 
       console.log(` ↳ Selling ${amount} ${id || name}`)
       listenChannel.sendMessage(`pls sell ${id || name} ${amount}`)
